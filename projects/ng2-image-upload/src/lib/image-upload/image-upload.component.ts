@@ -49,7 +49,13 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     if (!this.fileTooLargeMessage) {
       this.fileTooLargeMessage = 'An image was too large and was not uploaded.' + (this.maxFileSize ? (' The maximum file size is ' + this.maxFileSize / 1024) + 'KiB.' : '');
     }
-    this.supportedExtensions = this.supportedExtensions ? this.supportedExtensions.map((ext) => 'image/' + ext) : ['image/*'];
+    this.supportedExtensions = this.supportedExtensions ? this.supportedExtensions.map((ext) => {
+      if (ext === 'pdf') {
+        return 'application/pdf';
+      } else if (ext) {
+        return 'image/' + ext;
+      }
+    }) : ['image/*'];
   }
 
   deleteAll() {
